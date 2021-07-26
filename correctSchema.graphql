@@ -1,0 +1,96 @@
+type User {
+    id: ID
+    login: String
+    password: String
+    phone: String
+    roleId: ID
+    role: Roles
+    fullname: String
+    specializationId: ID
+    specialization: Specialization
+    rooms: [Room]
+}
+
+type Roles {
+    id: ID
+    name: String
+}
+
+type Specialization {
+    id: ID
+    name: String
+}
+
+type Room {
+    id: ID
+    name: String
+    statusId: ID
+    status: Alert
+    assignedDoctorId: ID
+    assignedDoctor: String
+    time: String
+}
+
+type Alert {
+    id: ID
+    name: String
+    color: String
+    textColor: String
+}
+
+input UserInput {
+    login: String
+    password: String
+    phone: String
+    roleId: ID
+    fullname: String
+    specializationId: ID
+}
+
+input RoomInput {
+    id: ID
+    name: String
+    assignedDoctor: String
+    assignedDoctorId: ID
+}
+
+input AlertInput {
+    name: String
+    color: String
+    textColor: String
+}
+
+type Query {
+#    User
+    getUser(id: ID): User
+    getUserByLogin(login: String, password: String): User
+    getDoctors: [User]
+    getAssistants: [User]
+    getReceptionists: [User]
+#    Roles
+
+#    Specialization
+
+#    Room
+    getAllRooms: [Room]
+    getAllDoctorRooms(id: ID): [Room]
+#    Alert
+    getAllAlerts: [Alert]
+}
+
+type Mutation {
+#    User
+    createUser(user: UserInput): User
+    updateUser(id: ID, user: UserInput): User
+    deleteUser(id: ID): User
+
+#    Room
+    changeRoomStatus(roomId: ID, statusId: ID): [User]
+    reserveRooms(userId: ID, roomsId: [RoomInput]): [Room]
+    updateRoom(roomId: ID, roomName: String): Room
+    deleteRoom(roomId: ID): [Room]
+
+#    Alert
+    createAlert(alert: AlertInput) : Alert
+    updateAlert(id: ID, alert: AlertInput): Alert
+}
